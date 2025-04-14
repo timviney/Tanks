@@ -1,23 +1,32 @@
+using System.Diagnostics;
+using System.Threading;
 using UnityEngine;
 
-public class TurretAiming : MonoBehaviour {
-    [SerializeField] private GameObject bulletPrefab;
+public class TurretAiming : MonoBehaviour 
+{
+    [SerializeField] private BulletPool bulletPool;
     [SerializeField] private Transform firePoint;
-    [SerializeField] private float bulletForce = 10f;
     private Camera _mainCam;
+    private Stopwatch _sw = new();
 
-    void Start() {
+    void Start() 
+    {
         _mainCam = Camera.main;
     }
 
-    void Update() {
+    void Update() 
+    {
         AimTurret();
-        if (Input.GetMouseButtonDown(0)) { // Left-click to shoot
-            Shoot();
-        }
+
+        if (!Input.GetMouseButton(0) || 
+            (_sw.IsRunning && _sw.ElapsedMilliseconds < 1000)) return;
+        
+        Shoot();
+        _sw.Restart();
     }
 
-    void AimTurret() {
+    void AimTurret() 
+    {
         var mousePos = _mainCam.ScreenToWorldPoint(Input.mousePosition);
         mousePos.z = 0;
         var direction = mousePos - transform.position;
@@ -25,9 +34,11 @@ public class TurretAiming : MonoBehaviour {
         transform.rotation = Quaternion.Euler(0, 0, angle);
     }
 
-    void Shoot() {
-        var bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
-        var bulletScript = bullet.GetComponent<InstantHitBullet>();
-        bulletScript.SetDirection(firePoint.right); // Shoot toward turret's aim
+    void Shoot() 
+    {
+        var bullet = bulletPool.GetBullet();
+        bullet.transform.position = firePoint.position;
+        bullet.transform.rotation = firePoint.rotation;
+        bullet.GetComponent<InstantHitBullet>().SetDirection(transform.right, bulletPool);
     }
 }

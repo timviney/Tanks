@@ -1,23 +1,56 @@
 using UnityEngine;
 
-public class InstantHitBullet : MonoBehaviour {
-    [SerializeField] private float speed = 6f;
+public class InstantHitBullet : MonoBehaviour 
+{
+    [SerializeField] private float speed = 4f;
+    [SerializeField] private LayerMask collisionLayers; 
     private Vector2 _direction;
+    private float _lifetime = 5f;
+    private BulletPool _pool;
 
-    public void SetDirection(Vector2 direction) {
-        _direction = direction;
+    public void SetDirection(Vector2 direction, BulletPool pool) 
+    {
+        _direction = direction.normalized;
+        _pool = pool;
+        _lifetime = 5f;
     }
 
-    void Update() {
-        // Move bullet manually (no physics for efficiency!!)
-        transform.Translate(_direction * (speed * Time.deltaTime));
-    }
+    void Update() 
+    {
+        var distance = speed * Time.deltaTime;
 
+        var hit = Physics2D.Raycast(transform.position, _direction, distance, collisionLayers);
+        if (hit.collider is not null)
+        {
+            ReturnToPool();
+            return;
+        }
+        transform.Translate(_direction * distance, Space.World);
+        if ((_lifetime -= Time.deltaTime) <= 0) Destroy(gameObject);
+    }
+    
+    private void ReturnToPool() 
+    {
+        if (_pool is not null) 
+        {
+            _pool.ReturnBullet(gameObject);
+        } 
+        else 
+        {
+            Destroy(gameObject); // Fallback
+        }
+    }
+    
     void OnTriggerEnter2D(Collider2D other) {
-        // Let bullets pass through each other to reduce computation!
-        if (other.gameObject.layer == LayerMask.NameToLayer("Bullets") || 
-            other.gameObject.layer == LayerMask.NameToLayer("Player")) return;
+        if (other.CompareTag("Bullets")) return;
 
-        Destroy(gameObject); // Vanish on hit
+        if (other.CompareTag("Player") || other.CompareTag("Enemies")) {
+            var health = other.GetComponent<TankHealth>();
+            if (health != null) {
+                health.TakeDamage(1); // Deal 1 damage per hit
+            }
+        }
+
+        ReturnToPool();
     }
 }
