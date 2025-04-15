@@ -323,7 +323,7 @@ GameObject:
   m_Component:
   - component: {fileID: 385668246}
   - component: {fileID: 385668248}
-  - component: {fileID: 385668247}
+  - component: {fileID: 385668249}
   m_Layer: 11
   m_Name: Turret
   m_TagString: Untagged
@@ -347,20 +347,6 @@ Transform:
   - {fileID: 1163485165}
   m_Father: {fileID: 1859575606}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &385668247
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 385668245}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 798f4a44b0372a347a3effb43b454f30, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bulletPool: {fileID: 626348656}
-  firePoint: {fileID: 1163485165}
 --- !u!212 &385668248
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -417,6 +403,21 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &385668249
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 385668245}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0cf9510382ba0d41bc47bada9d8fcc1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bulletPool: {fileID: 626348656}
+  firePoint: {fileID: 1163485165}
+  shootCooldown: 1000
 --- !u!1 &466335649
 GameObject:
   m_ObjectHideFlags: 0
@@ -2164,6 +2165,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bulletPool: {fileID: 626348656}
   firePoint: {fileID: 466335650}
+  shootCooldown: 1000
 --- !u!1 &1859575601
 GameObject:
   m_ObjectHideFlags: 0
@@ -2176,8 +2178,8 @@ GameObject:
   - component: {fileID: 1859575605}
   - component: {fileID: 1859575604}
   - component: {fileID: 1859575603}
-  - component: {fileID: 1859575602}
   - component: {fileID: 1859575607}
+  - component: {fileID: 1859575608}
   m_Layer: 11
   m_Name: BadGuy
   m_TagString: Enemies
@@ -2185,20 +2187,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1859575602
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1859575601}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7804b1af893c4d4485eb08d5b7977205, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveSpeed: 3
-  rotationSpeed: 100
 --- !u!61 &1859575603
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2358,6 +2346,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   explosionPrefab: {fileID: 7868745073593261011, guid: 60281fc90fbbead4dacb3f04ceb62803,
     type: 3}
+--- !u!114 &1859575608
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1859575601}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7823a28daaf654642850d0000e09961d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 1
+  rotationSpeed: 100
 --- !u!1 &2037952216
 GameObject:
   m_ObjectHideFlags: 0

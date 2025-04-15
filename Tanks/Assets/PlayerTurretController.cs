@@ -2,10 +2,12 @@ using System.Diagnostics;
 using System.Threading;
 using UnityEngine;
 
-public class TurretAiming : MonoBehaviour 
+public class PlayerTurretController : MonoBehaviour 
 {
     [SerializeField] private BulletPool bulletPool;
     [SerializeField] private Transform firePoint;
+    [SerializeField] private float shootCooldown = 1000f;
+
     private Camera _mainCam;
     private Stopwatch _sw = new();
 
@@ -19,7 +21,7 @@ public class TurretAiming : MonoBehaviour
         AimTurret();
 
         if (!Input.GetMouseButton(0) || 
-            (_sw.IsRunning && _sw.ElapsedMilliseconds < 1000)) return;
+            (_sw.IsRunning && _sw.ElapsedMilliseconds < shootCooldown)) return;
         
         Shoot();
         _sw.Restart();
@@ -37,8 +39,8 @@ public class TurretAiming : MonoBehaviour
     void Shoot() 
     {
         var bullet = bulletPool.GetBullet();
-        bullet.transform.position = firePoint.position;
-        bullet.transform.rotation = firePoint.rotation;
-        bullet.GetComponent<InstantHitBullet>().SetDirection(transform.right, bulletPool);
+        bullet.gameObject.transform.position = firePoint.position;
+        bullet.gameObject.transform.rotation = firePoint.rotation;
+        bullet.component.SetDirection(transform.right, bulletPool);
     }
 }

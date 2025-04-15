@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 
-public class TankController : MonoBehaviour
+public class PlayerTankController : MonoBehaviour
 {
-    [SerializeField] private float moveSpeed = 10f;
-    [SerializeField] private float rotationSpeed = 200f;
+    [SerializeField] private float moveSpeed = 3;
+    [SerializeField] private float rotationSpeed = 100f;
     
     private Rigidbody2D _rb;
     private Vector2 _movement;

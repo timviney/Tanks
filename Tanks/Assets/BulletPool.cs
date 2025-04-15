@@ -1,12 +1,13 @@
+using System;
 using UnityEngine;
 using System.Collections.Generic;
 
 public class BulletPool : MonoBehaviour {
     [SerializeField] private GameObject bulletPrefab;
-    [SerializeField] private int initialPoolSize = 20;
+    [SerializeField] private int initialPoolSize = 30;
     
-    private readonly Stack<GameObject> _inactiveBullets = new();
-    private readonly List<GameObject> _activeBullets = new();
+    private readonly Stack<BulletInstance> _inactiveBullets = new();
+    private readonly List<BulletInstance> _activeBullets = new();
 
     void Start() 
     {
@@ -14,11 +15,15 @@ public class BulletPool : MonoBehaviour {
         for (int i = 0; i < initialPoolSize; i++) {
             var bullet = Instantiate(bulletPrefab, transform);
             bullet.SetActive(false);
-            _inactiveBullets.Push(bullet);
+            _inactiveBullets.Push(new BulletInstance
+            {
+                gameObject = bullet, 
+                component = bullet.GetComponent<Bullet>()
+            });
         }
     }
 
-    public GameObject GetBullet() 
+    public BulletInstance GetBullet() 
     {
         if (_inactiveBullets.Count == 0)
         {
@@ -27,16 +32,43 @@ public class BulletPool : MonoBehaviour {
             return activeBullet;
         }
         
-        var bullet = _inactiveBullets.Pop();
-        bullet.SetActive(true);
-        _activeBullets.Add(bullet);
-        return bullet;
+        var bulletInstance = _inactiveBullets.Pop();
+        bulletInstance.gameObject.SetActive(true);
+        _activeBullets.Add(bulletInstance);
+        return bulletInstance;
     }
 
-    public void ReturnBullet(GameObject bullet) 
+    public void ReturnBullet(BulletInstance bullet) 
     {
-        bullet.SetActive(false);
+        bullet.gameObject.SetActive(false);
         _activeBullets.Remove(bullet);
         _inactiveBullets.Push(bullet);
+    }
+}
+
+public struct BulletInstance : IEquatable<BulletInstance>
+{
+    public GameObject gameObject;
+    public Bullet component;
+
+    public BulletInstance(GameObject go, Bullet bullet)
+    {
+        gameObject = go;
+        component = bullet;
+    }
+
+    public bool Equals(BulletInstance other)
+    {
+        return gameObject == other.gameObject;
+    }
+
+    public override bool Equals(object obj)
+    {
+        return obj is BulletInstance other && Equals(other);
+    }
+
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(gameObject);
     }
 }

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class InstantHitBullet : MonoBehaviour 
+public class Bullet : MonoBehaviour 
 {
     [SerializeField] private float speed = 4f;
     [SerializeField] private LayerMask collisionLayers; 
@@ -33,7 +33,7 @@ public class InstantHitBullet : MonoBehaviour
     {
         if (_pool is not null) 
         {
-            _pool.ReturnBullet(gameObject);
+            _pool.ReturnBullet(new BulletInstance(gameObject, this));
         } 
         else 
         {
@@ -47,7 +47,7 @@ public class InstantHitBullet : MonoBehaviour
         if (other.CompareTag("Player") || other.CompareTag("Enemies")) {
             var health = other.GetComponent<TankHealth>();
             if (health != null) {
-                health.TakeDamage(1); // Deal 1 damage per hit
+                health.TakeDamage(1);
             }
         }
 
