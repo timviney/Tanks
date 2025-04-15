@@ -4,7 +4,9 @@ public class EnemyController :  MonoBehaviour
 {
     [SerializeField] private float moveSpeed = 3f;
     [SerializeField] private float rotationSpeed = 100f;
-    
+    [SerializeField] private LayerMask wallLayer;
+    [SerializeField] private PlayerFinder playerFinder;
+
     private Rigidbody2D _rb;
     private Transform _player;
     private Vector2 _movement;
@@ -17,11 +19,17 @@ public class EnemyController :  MonoBehaviour
 
     void Update()
     {
-        if (!_player) return;
+        if (_player && playerFinder.CanSeePlayer())
+        {
+            var direction = _player.position - transform.position;
+            direction.Normalize();
+            _movement = direction;
+        }
+        else
+        {
+            _movement = Vector2.zero;
+        }
 
-        var direction = _player.position - transform.position;
-        direction.Normalize();
-        _movement = direction;
     }
 
     void FixedUpdate()

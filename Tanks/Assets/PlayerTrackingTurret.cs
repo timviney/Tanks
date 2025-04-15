@@ -6,7 +6,8 @@ public class PlayerTrackingTurret :  MonoBehaviour
     [SerializeField] private BulletPool bulletPool;
     [SerializeField] private Transform firePoint;
     [SerializeField] private float shootCooldown = 1000f;
-    
+    [SerializeField] private PlayerFinder playerFinder;
+
     private Transform _player;
     private Stopwatch _sw = new Stopwatch();
 
@@ -22,7 +23,7 @@ public class PlayerTrackingTurret :  MonoBehaviour
 
         AimTurret();
 
-        if (IsCoolingDown()) return;
+        if (IsCoolingDown() || !playerFinder.CanSeePlayer()) return;
         
         Shoot();
         _sw.Restart();
