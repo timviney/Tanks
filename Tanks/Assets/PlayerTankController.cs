@@ -7,6 +7,7 @@ public class PlayerTankController : MonoBehaviour
     
     private Rigidbody2D _rb;
     private Vector2 _movement;
+    private float _nominalRotation;
 
     void Start()
     {
@@ -24,12 +25,16 @@ public class PlayerTankController : MonoBehaviour
     {
         // Move the tank
         _rb.linearVelocity = _movement.normalized * moveSpeed;
-
-        // Rotate the tank toward movement direction (only if moving)
-        if (_movement == Vector2.zero) return;
         
-        var targetAngle = Mathf.Atan2(_movement.y, _movement.x) * Mathf.Rad2Deg - 90f; // -90° to face upward initially
-        var angle = Mathf.LerpAngle(_rb.rotation, targetAngle, rotationSpeed * Time.fixedDeltaTime);
-        _rb.rotation = angle;
+        float targetAngle; 
+        if (_movement == Vector2.zero)
+        {
+            targetAngle = _rb.rotation;
+            _rb.angularVelocity = 0;
+        }
+        else targetAngle = Mathf.Atan2(_movement.y, _movement.x) * Mathf.Rad2Deg - 90f;// -90deg to face upward initially
+        
+        _nominalRotation = Mathf.LerpAngle(_nominalRotation, targetAngle, rotationSpeed * Time.fixedDeltaTime);
+        _rb.rotation = Mathf.RoundToInt(_nominalRotation / 15) * 15; //Lock into 15 degrees only
     }
 }

@@ -2409,7 +2409,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7823a28daaf654642850d0000e09961d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 2
+  moveSpeed: 2.8
   rotationSpeed: 100
   wallLayer:
     serializedVersion: 2
