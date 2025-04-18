@@ -10,6 +10,7 @@ public class EnemyController :  MonoBehaviour
     private Rigidbody2D _rb;
     private Transform _player;
     private Vector2 _movement;
+    private float _nominalRotation;
 
     void Start()
     {
@@ -23,23 +24,40 @@ public class EnemyController :  MonoBehaviour
         {
             var direction = _player.position - transform.position;
             direction.Normalize();
-            _movement = direction;
+            _movement = SnapTo45DegreeAngle(direction);
         }
         else
         {
             _movement = Vector2.zero;
         }
-
     }
 
+    Vector2 SnapTo45DegreeAngle(Vector2 originalDirection)
+    {
+        // Calculate the angle in degrees
+        var angle = Mathf.Atan2(originalDirection.y, originalDirection.x) * Mathf.Rad2Deg;
+    
+        // Snap to nearest 45deg angle
+        var snappedAngle = Mathf.Round(angle / 45f) * 45f;
+    
+        // Convert back to direction vector
+        var radAngle = snappedAngle * Mathf.Deg2Rad;
+        return new Vector2(Mathf.Cos(radAngle), Mathf.Sin(radAngle)).normalized;
+    }
+    
     void FixedUpdate()
     {
-        _rb.linearVelocity = _movement * moveSpeed;
-
-        if (_movement == Vector2.zero) return;
+        _rb.linearVelocity = _movement.normalized * moveSpeed;
         
-        var targetAngle = Mathf.Atan2(_movement.y, _movement.x) * Mathf.Rad2Deg - 90f;
-        var angle = Mathf.LerpAngle(_rb.rotation, targetAngle, rotationSpeed * Time.fixedDeltaTime);
-        _rb.rotation = angle;
+        float targetAngle; 
+        if (_movement == Vector2.zero)
+        {
+            targetAngle = _rb.rotation;
+            _rb.angularVelocity = 0;
+        }
+        else targetAngle = Mathf.Atan2(_movement.y, _movement.x) * Mathf.Rad2Deg - 90f;// -90deg to face upward initially
+        
+        _nominalRotation = Mathf.LerpAngle(_nominalRotation, targetAngle, rotationSpeed * Time.fixedDeltaTime);
+        _rb.rotation = Mathf.RoundToInt(_nominalRotation / 15f) * 15f; //Lock into 15 degrees only
     }
 }

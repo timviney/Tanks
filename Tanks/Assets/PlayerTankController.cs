@@ -30,11 +30,11 @@ public class PlayerTankController : MonoBehaviour
         if (_movement == Vector2.zero)
         {
             targetAngle = _rb.rotation;
-            _rb.angularVelocity = 0;
+            _rb.angularVelocity = 0f;
         }
         else targetAngle = Mathf.Atan2(_movement.y, _movement.x) * Mathf.Rad2Deg - 90f;// -90deg to face upward initially
         
         _nominalRotation = Mathf.LerpAngle(_nominalRotation, targetAngle, rotationSpeed * Time.fixedDeltaTime);
-        _rb.rotation = Mathf.RoundToInt(_nominalRotation / 15) * 15; //Lock into 15 degrees only
+        _rb.rotation = Mathf.RoundToInt(_nominalRotation / 15f) * 15f; //Lock into 15 degrees only
     }
 }
