@@ -5,6 +5,6 @@ public class LevelSelector : MonoBehaviour
 {
     public void Level1()
     {
-        SceneManager.LoadScene("Level1"); // Goes to level 1
+        LevelManager.Instance.LoadLevel(1);
     }
 }

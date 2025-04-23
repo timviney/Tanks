@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class TankHealth : MonoBehaviour
@@ -6,6 +7,7 @@ public class TankHealth : MonoBehaviour
     public void TakeDamage(float damage)
     {
         Explode();
+        GameManager.Instance.RegisterDeath(gameObject);
     }
     
     private void Explode() {
