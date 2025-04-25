@@ -1,4 +1,3 @@
-using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -12,6 +11,7 @@ public class UiTilemap : MonoBehaviour
     
     void Start()
     {
+        Debug.Log("Started!"); 
         if (tilemap == null) tilemap = GetComponent<Tilemap>();
     }
 
@@ -41,8 +41,9 @@ public class UiTilemap : MonoBehaviour
         textComponent.SetActive(false);
     }
 
-    void OnMouseDown()
+    public void WhenOkayClicked()
     {
+        Debug.Log("OK Button Clicked!"); 
         switch (_state)
         {
             case UiState.Start:
@@ -56,6 +57,11 @@ public class UiTilemap : MonoBehaviour
                 LevelManager.Instance.ReturnToLevelSelector();
                 break;
         }
+    }
+
+    public void WhenReturnClicked()
+    {
+        LevelManager.Instance.ReturnToLevelSelector();
     }
 
     private enum UiState
