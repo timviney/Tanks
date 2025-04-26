@@ -60,21 +60,7 @@ public class GameManager : MonoBehaviour
         if (_enemies.Count > 0 || _gameEnded || _player == null) return;
         
         _gameEnded = true;
+        LevelManager.Instance.CompleteLevel();
         _uiTilemap.Win();
-    }
-
-    private int GetCurrentLevelIndex()
-    {
-        var sceneName = SceneManager.GetActiveScene().name;
-        if (sceneName.StartsWith("Level"))
-        {
-            string levelNum = sceneName.Replace("Level", "");
-            int index;
-            if (int.TryParse(levelNum, out index))
-            {
-                return index;
-            }
-        }
-        return 1; // Default to level 1 if can't parse
     }
 }

@@ -6,6 +6,7 @@ public class LevelManager : MonoBehaviour
     public static LevelManager Instance;
     
     private int _levelsUnlocked = 1;
+    private int _currentLevel = 0;
     
     private void Awake()
     {
@@ -22,23 +23,24 @@ public class LevelManager : MonoBehaviour
         }
     }
     
-    // Call this when a level is completed
-    public void CompleteLevel(int levelIndex)
+    public void CompleteLevel()
     {
-        if (levelIndex < _levelsUnlocked) return;
+        if (_currentLevel < _levelsUnlocked) return;
         
-        _levelsUnlocked = levelIndex + 1;
+        _levelsUnlocked = _currentLevel + 1;
         PlayerPrefs.SetInt("LevelsUnlocked", _levelsUnlocked);
         PlayerPrefs.Save();
     }
     
     public void LoadLevel(int levelIndex)
     {
+        _currentLevel = levelIndex;
         SceneManager.LoadScene("Level" + levelIndex);
     }
     
     public void ReturnToLevelSelector()
     {
+        _currentLevel = 0;
         SceneManager.LoadScene("LevelSelector");
     }
     
