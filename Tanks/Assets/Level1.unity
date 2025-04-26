@@ -362,7 +362,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tilemap: {fileID: 732917997}
-  textComponent: {fileID: 81958682}
+  uiTextComponent: {fileID: 81958682}
+  okTextComponent: {fileID: 1422392433}
+  returnTextComponent: {fileID: 988840149}
 --- !u!1 &334298618
 GameObject:
   m_ObjectHideFlags: 0
@@ -756,7 +758,7 @@ GameObject:
   - component: {fileID: 732917994}
   - component: {fileID: 732917993}
   m_Layer: 9
-  m_Name: UI Start
+  m_Name: UiTiles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3079,7 +3081,7 @@ GameObject:
   - component: {fileID: 988840152}
   - component: {fileID: 988840151}
   m_Layer: 5
-  m_Name: Return
+  m_Name: ReturnObj
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3130,7 +3132,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tilemap: {fileID: 0}
-  textComponent: {fileID: 988840149}
+  uiTextComponent: {fileID: 0}
+  okTextComponent: {fileID: 0}
+  returnTextComponent: {fileID: 0}
 --- !u!61 &988840153
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3328,6 +3332,7 @@ GameObject:
   - component: {fileID: 1039673261}
   - component: {fileID: 1039673260}
   - component: {fileID: 1039673259}
+  - component: {fileID: 1039673262}
   m_Layer: 0
   m_Name: Camera
   m_TagString: MainCamera
@@ -3394,7 +3399,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 8
+  orthographic size: 8.1
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
@@ -3425,6 +3430,22 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1039673262
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1039673258}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b2c45f23f0ad5b48a3f245a1aad51ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 334298623}
+  mapRenderer: {fileID: 2037952217}
+  smoothing: 5
+  edgeThreshold: 1
 --- !u!1 &1163485164
 GameObject:
   m_ObjectHideFlags: 0
@@ -3540,7 +3561,7 @@ GameObject:
   - component: {fileID: 1178727383}
   - component: {fileID: 1178727382}
   m_Layer: 9
-  m_Name: Return
+  m_Name: ReturnTiles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5450,7 +5471,7 @@ GameObject:
   - component: {fileID: 1422392435}
   - component: {fileID: 1422392439}
   m_Layer: 5
-  m_Name: OK
+  m_Name: OkObj
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5488,8 +5509,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cefc424958e241249b0f093279016772, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tilemap: {fileID: 0}
-  textComponent: {fileID: 1422392433}
+  tilemap: {fileID: 732917997}
+  uiTextComponent: {fileID: 81958682}
+  okTextComponent: {fileID: 1422392433}
+  returnTextComponent: {fileID: 0}
 --- !u!61 &1422392436
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -6103,7 +6126,7 @@ GameObject:
   - component: {fileID: 1903080437}
   - component: {fileID: 1903080438}
   m_Layer: 9
-  m_Name: OK
+  m_Name: OkTiles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6695,8 +6718,8 @@ Transform:
   m_GameObject: {fileID: 2037952216}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.052, y: -50.027, z: 0}
-  m_LocalScale: {x: 28.5, y: 16, z: 1}
+  m_LocalPosition: {x: -0.0141, y: -49.9905, z: 0}
+  m_LocalScale: {x: 28.801086, y: 16.152609, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}

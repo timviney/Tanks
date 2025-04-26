@@ -1,49 +1,54 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.Tilemaps;
 
 public class UiTilemap : MonoBehaviour
 {
     [SerializeField] private Tilemap tilemap;
-    [SerializeField] private GameObject textComponent;
+    [SerializeField] private GameObject uiTextComponent;
+    [SerializeField] private GameObject okTextComponent;
+    [SerializeField] private GameObject returnTextComponent;
 
     private UiState _state;
     
     void Start()
     {
-        Debug.Log("Started!"); 
         if (tilemap == null) tilemap = GetComponent<Tilemap>();
     }
 
     public void Win()
     {
         _state = UiState.Win;
+        uiTextComponent.GetComponent<TextMeshPro>().text = "You Win!";
+        okTextComponent.GetComponent<TextMeshPro>().text = "Next";
+        
         Enable();
-        textComponent.GetComponent<TextMeshPro>().text = "You Win!";
     }
     public void Lose()
     {
         _state = UiState.Lose;
+        uiTextComponent.GetComponent<TextMeshPro>().text = "You Lose!";
+        okTextComponent.GetComponent<TextMeshPro>().text = "Retry";
+
         Enable();
-        textComponent.GetComponent<TextMeshPro>().text = "You Lose!";
     }
 
     private void Enable()
     {
         tilemap.GetComponent<TilemapRenderer>().enabled = true;
         tilemap.GetComponent<TilemapCollider2D>().enabled = true;
-        textComponent.SetActive(true);
+        uiTextComponent.SetActive(true);
     }
     private void Disable()
     {
         tilemap.GetComponent<TilemapRenderer>().enabled = false;
         tilemap.GetComponent<TilemapCollider2D>().enabled = false;
-        textComponent.SetActive(false);
+        uiTextComponent.SetActive(false);
     }
 
     public void WhenOkayClicked()
     {
-        Debug.Log("OK Button Clicked!"); 
         switch (_state)
         {
             case UiState.Start:
@@ -51,10 +56,10 @@ public class UiTilemap : MonoBehaviour
                 Disable();
                 break;
             case UiState.Win:
-                LevelManager.Instance.ReturnToLevelSelector();
+                LevelManager.Instance.NextLevel();
                 break;
             case UiState.Lose:
-                LevelManager.Instance.ReturnToLevelSelector();
+                LevelManager.Instance.ReloadLevel();
                 break;
         }
     }
