@@ -6,7 +6,7 @@ public class BulletPool : MonoBehaviour {
     [SerializeField] private GameObject bulletPrefab;
     [SerializeField] private int initialPoolSize = 30;
     
-    private readonly Stack<BulletInstance> _inactiveBullets = new();
+    private readonly Queue<BulletInstance> _inactiveBullets = new();
     private readonly List<BulletInstance> _activeBullets = new();
 
     void Start() 
@@ -15,51 +15,55 @@ public class BulletPool : MonoBehaviour {
         for (int i = 0; i < initialPoolSize; i++) {
             var bullet = Instantiate(bulletPrefab, transform);
             bullet.SetActive(false);
-            _inactiveBullets.Push(new BulletInstance
+            _inactiveBullets.Enqueue(new BulletInstance
             {
-                gameObject = bullet, 
-                component = bullet.GetComponent<Bullet>()
+                GameObject = bullet, 
+                Component = bullet.GetComponent<Bullet>()
             });
         }
     }
 
     public BulletInstance GetBullet() 
     {
+        BulletInstance bullet;
         if (_inactiveBullets.Count == 0)
         {
             var activeBullet = _activeBullets[0];
             ReturnBullet(activeBullet);
-            return activeBullet;
+            bullet = activeBullet;
+        }
+        else
+        {
+            bullet = _inactiveBullets.Dequeue();
         }
         
-        var bulletInstance = _inactiveBullets.Pop();
-        bulletInstance.gameObject.SetActive(true);
-        _activeBullets.Add(bulletInstance);
-        return bulletInstance;
+        bullet.GameObject.SetActive(true);
+        _activeBullets.Add(bullet);
+        return bullet;
     }
 
     public void ReturnBullet(BulletInstance bullet) 
     {
-        bullet.gameObject.SetActive(false);
+        bullet.GameObject.SetActive(false);
         _activeBullets.Remove(bullet);
-        _inactiveBullets.Push(bullet);
+        _inactiveBullets.Enqueue(bullet);
     }
 }
 
 public struct BulletInstance : IEquatable<BulletInstance>
 {
-    public GameObject gameObject;
-    public Bullet component;
+    public GameObject GameObject;
+    public Bullet Component;
 
     public BulletInstance(GameObject go, Bullet bullet)
     {
-        gameObject = go;
-        component = bullet;
+        GameObject = go;
+        Component = bullet;
     }
 
     public bool Equals(BulletInstance other)
     {
-        return gameObject == other.gameObject;
+        return GameObject == other.GameObject;
     }
 
     public override bool Equals(object obj)
@@ -69,6 +73,6 @@ public struct BulletInstance : IEquatable<BulletInstance>
 
     public override int GetHashCode()
     {
-        return HashCode.Combine(gameObject);
+        return HashCode.Combine(GameObject);
     }
 }

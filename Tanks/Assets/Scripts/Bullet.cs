@@ -5,9 +5,12 @@ public class Bullet : MonoBehaviour
     [SerializeField] private float speed = 4f;
     [SerializeField] private LayerMask collisionLayers; 
     private Vector2 _direction;
-    private float _lifetime = 5f;
+    private float _lifetime = 10f;
     private BulletPool _pool;
-
+    
+    public Vector2 Direction => _direction;
+    public float Speed => speed;
+    
     public void SetDirection(Vector2 direction, BulletPool pool) 
     {
         _direction = direction.normalized;
@@ -26,7 +29,7 @@ public class Bullet : MonoBehaviour
             return;
         }
         transform.Translate(_direction * distance, Space.World);
-        if ((_lifetime -= Time.deltaTime) <= 0) Destroy(gameObject);
+        if ((_lifetime -= Time.deltaTime) <= 0) ReturnToPool();
     }
     
     private void ReturnToPool() 

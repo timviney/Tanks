@@ -20,6 +20,8 @@ public class EnemyController :  MonoBehaviour
 
     void Update()
     {
+        if (!GameManager.Instance.GameStarted) return;
+
         if (_player && playerFinder.CanSeePlayer())
         {
             var direction = _player.position - transform.position;

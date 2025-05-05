@@ -4,6 +4,7 @@ using UnityEngine.UI;
 public class LevelSelector : MonoBehaviour
 {
     [SerializeField] private Button[] levelButtons;
+    [SerializeField] private LevelManager levelManager;
 
     private void Start()
     {
@@ -24,10 +25,10 @@ public class LevelSelector : MonoBehaviour
             levelButtons[i].onClick.RemoveAllListeners();
             
             levelButtons[i].onClick.AddListener(() => {
-                LevelManager.Instance.LoadLevel(level);
+                levelManager.LoadLevel(level);
             });
             
-            levelButtons[i].interactable = LevelManager.Instance.IsLevelUnlocked(level);
+            levelButtons[i].interactable = levelManager.IsLevelUnlocked(level);
         }
     }
 }

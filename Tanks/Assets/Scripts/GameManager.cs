@@ -1,7 +1,6 @@
+using System;
 using UnityEngine;
-using UnityEngine.Tilemaps;
 using System.Collections.Generic;
-using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -11,10 +10,11 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance;
 
     // Game state tracking
+    public bool GameEnded { get; private set; }
+    public bool GameStarted { get; private set; }
     private List<GameObject> _enemies = new List<GameObject>();
     private GameObject _player;
-    private bool _gameEnded = false;
-    private UiTilemap _uiTilemap;
+    private UiHandler _uiHandler;
     
     private void Awake()
     {
@@ -37,7 +37,7 @@ public class GameManager : MonoBehaviour
         var enemyArray = GameObject.FindGameObjectsWithTag("Enemies");
         _enemies = new List<GameObject>(enemyArray);
         
-        _uiTilemap = uiTilemapGo.GetComponent<UiTilemap>();
+        _uiHandler = uiTilemapGo.GetComponent<UiHandler>();
     }
 
     // Call this when an enemy is destroyed
@@ -46,21 +46,31 @@ public class GameManager : MonoBehaviour
         if (_enemies.Contains(tank))
         {
             _enemies.Remove(tank);
+            Console.Out.WriteLine(tank.name);
             CheckWinCondition();
         }
         else if (_player == tank)
         {
-            _gameEnded = true;
-            _uiTilemap.Lose();
+            GameEnded = true;
+            _uiHandler.Lose();
         }
     }
 
+    public void StartGame()
+    {
+        GameStarted = true;
+    }
+    
     private void CheckWinCondition()
     {
-        if (_enemies.Count > 0 || _gameEnded || _player == null) return;
+        Console.Out.WriteLine("Checking win condition");
+
+        if (_enemies.Count > 0 || GameEnded || _player == null) return;
         
-        _gameEnded = true;
+        Console.Out.WriteLine("Won!");
+
+        GameEnded = true;
+        _uiHandler.Win();
         LevelManager.Instance.CompleteLevel();
-        _uiTilemap.Win();
     }
 }

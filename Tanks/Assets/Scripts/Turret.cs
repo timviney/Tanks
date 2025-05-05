@@ -11,6 +11,8 @@ public class Turret :  MonoBehaviour
 
     void Start() 
     {
+        if (!GameManager.Instance.GameStarted) return;
+
         _sw.Start();
     }
     
@@ -22,8 +24,8 @@ public class Turret :  MonoBehaviour
     void Shoot() 
     {
         var bullet = bulletPool.GetBullet();
-        bullet.gameObject.transform.position = firePoint.position;
-        bullet.gameObject.transform.rotation = firePoint.rotation;
-        bullet.component.SetDirection(transform.right, bulletPool);
+        bullet.GameObject.transform.position = firePoint.position;
+        bullet.GameObject.transform.rotation = firePoint.rotation;
+        bullet.Component.SetDirection(transform.right, bulletPool);
     }
 }
