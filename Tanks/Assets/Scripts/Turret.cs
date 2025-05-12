@@ -11,7 +11,7 @@ public class Turret :  MonoBehaviour
 
     void Start() 
     {
-        if (!GameManager.Instance.GameStarted) return;
+        if (GameManager.Instance.GamePaused) return;
 
         _sw.Start();
     }

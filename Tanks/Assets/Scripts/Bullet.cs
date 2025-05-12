@@ -20,6 +20,8 @@ public class Bullet : MonoBehaviour
 
     void Update() 
     {
+        if (GameManager.Instance.GamePaused) return;
+        
         var distance = speed * Time.deltaTime;
 
         var hit = Physics2D.Raycast(transform.position, _direction, distance, collisionLayers);

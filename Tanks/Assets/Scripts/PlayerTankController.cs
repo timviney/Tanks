@@ -16,7 +16,7 @@ public class PlayerTankController : MonoBehaviour
 
     void Update()
     {
-        if (!GameManager.Instance.GameStarted) return;
+        if (GameManager.Instance.GamePaused) return;
         
         // Get WASD input
         _movement.x = Input.GetAxisRaw("Horizontal");

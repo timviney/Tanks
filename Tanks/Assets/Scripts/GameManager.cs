@@ -12,6 +12,8 @@ public class GameManager : MonoBehaviour
     // Game state tracking
     public bool GameEnded { get; private set; }
     public bool GameStarted { get; private set; }
+    public bool GamePaused => !GameStarted || GameEnded;
+    
     private List<GameObject> _enemies = new List<GameObject>();
     private GameObject _player;
     private UiHandler _uiHandler;

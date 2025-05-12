@@ -19,7 +19,7 @@ public class PlayerTrackingTurret :  MonoBehaviour
 
     void Update() 
     {
-        if (!GameManager.Instance.GameStarted) return;
+        if (GameManager.Instance.GamePaused) return;
 
         if (!_player) return;
 
