@@ -3074,7 +3074,6 @@ GameObject:
   - component: {fileID: 988840155}
   - component: {fileID: 988840154}
   - component: {fileID: 988840153}
-  - component: {fileID: 988840152}
   - component: {fileID: 988840151}
   m_Layer: 5
   m_Name: ReturnObj
@@ -3115,22 +3114,6 @@ SortingGroup:
   m_SortingLayer: 0
   m_SortingOrder: 3
   m_SortAtRoot: 0
---- !u!114 &988840152
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 988840149}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cefc424958e241249b0f093279016772, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  tilemap: {fileID: 0}
-  uiTextComponent: {fileID: 0}
-  okTextComponent: {fileID: 0}
-  returnTextComponent: {fileID: 0}
 --- !u!61 &988840153
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -5372,7 +5355,6 @@ GameObject:
   - component: {fileID: 1422392438}
   - component: {fileID: 1422392437}
   - component: {fileID: 1422392436}
-  - component: {fileID: 1422392435}
   - component: {fileID: 1422392439}
   m_Layer: 5
   m_Name: OkObj
@@ -5401,22 +5383,6 @@ RectTransform:
   m_AnchoredPosition: {x: -4.38, y: -4.9799995}
   m_SizeDelta: {x: 5.6716, y: 3.0427}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1422392435
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1422392433}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cefc424958e241249b0f093279016772, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  tilemap: {fileID: 732917997}
-  uiTextComponent: {fileID: 81958682}
-  okTextComponent: {fileID: 1422392433}
-  returnTextComponent: {fileID: 0}
 --- !u!61 &1422392436
 BoxCollider2D:
   m_ObjectHideFlags: 0

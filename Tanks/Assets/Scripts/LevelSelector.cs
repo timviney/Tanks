@@ -1,17 +1,12 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class LevelSelector : MonoBehaviour
 {
     [SerializeField] private Button[] levelButtons;
-    [SerializeField] private LevelManager levelManager;
 
     private void Start()
-    {
-        SetButtons();
-    }
-    
-    private void OnEnable()
     {
         SetButtons();
     }
@@ -25,10 +20,10 @@ public class LevelSelector : MonoBehaviour
             levelButtons[i].onClick.RemoveAllListeners();
             
             levelButtons[i].onClick.AddListener(() => {
-                levelManager.LoadLevel(level);
+                LevelManager.Instance.LoadLevel(level);
             });
             
-            levelButtons[i].interactable = levelManager.IsLevelUnlocked(level);
+            levelButtons[i].interactable = LevelManager.Instance?.IsLevelUnlocked(level)??false;
         }
     }
 }

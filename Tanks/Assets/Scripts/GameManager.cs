@@ -18,6 +18,8 @@ public class GameManager : MonoBehaviour
     private GameObject _player;
     private UiHandler _uiHandler;
     
+    private object _lock = new object();
+    
     private void Awake()
     {
         if (Instance == null)
@@ -48,7 +50,6 @@ public class GameManager : MonoBehaviour
         if (_enemies.Contains(tank))
         {
             _enemies.Remove(tank);
-            Console.Out.WriteLine(tank.name);
             CheckWinCondition();
         }
         else if (_player == tank)
@@ -65,14 +66,15 @@ public class GameManager : MonoBehaviour
     
     private void CheckWinCondition()
     {
-        Console.Out.WriteLine("Checking win condition");
-
         if (_enemies.Count > 0 || GameEnded || _player == null) return;
-        
-        Console.Out.WriteLine("Won!");
 
-        GameEnded = true;
-        _uiHandler.Win();
-        LevelManager.Instance.CompleteLevel();
+        lock (_lock)
+        {
+            if (_enemies.Count > 0 || GameEnded || _player == null) return;
+            
+            GameEnded = true;
+            _uiHandler.Win();
+            LevelManager.Instance.CompleteLevel();
+        }
     }
 }
