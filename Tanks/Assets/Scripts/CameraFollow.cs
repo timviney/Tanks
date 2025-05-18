@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class CameraFollow : MonoBehaviour
 {
@@ -18,16 +19,21 @@ public class CameraFollow : MonoBehaviour
     private Vector2 _mapMax;
     private Vector3 _initialOffset;
 
+    private CameraAspectRatio _aspectRatioController;
+
     void Start()
     {
         _cam = GetComponent<Camera>();
-        CalculateCameraBounds();
+        _aspectRatioController = _cam.gameObject.GetComponent<CameraAspectRatio>();
         _initialOffset = transform.position - target.position;
+        CalculateCameraBounds();
+        
+        _aspectRatioController.OnAspectRatioChanged += CalculateCameraBounds; // Aspect Ratio recalcs after we Start here
     }
 
     void CalculateCameraBounds()
     {
-        if (mapRenderer == null)
+        if (!mapRenderer)
         {
             Debug.LogError("Map Renderer not assigned!");
             return;
@@ -35,7 +41,7 @@ public class CameraFollow : MonoBehaviour
 
         _cameraHalfWidth = _cam.orthographicSize * _cam.aspect;
         _cameraHalfHeight = _cam.orthographicSize;
-        
+
         var mapBounds = mapRenderer.bounds;
         _mapMin = new Vector2(
             mapBounds.min.x + _cameraHalfWidth,
